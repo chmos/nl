@@ -1,3 +1,4 @@
-# nl
+# natural language to plot
 
-AI framework
+## Phase 1: quick wrap of Asymptote (QWA)
+
