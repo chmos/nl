@@ -8,7 +8,7 @@ Unzip the OpenCL folder and copy it into your project source folder. Then in you
 
 Finally, in your .cpp source file, include the headers with 
 ```c++
-#include <CL/cl.hpp>.
+#include <CL/cl.hpp>
 ```
 
 This also works for AMD/Intel GPUs and CPUs. It also works on Linux if you compile with:
