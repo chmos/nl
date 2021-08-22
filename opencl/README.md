@@ -16,3 +16,5 @@ This also works for AMD/Intel GPUs and CPUs. It also works on Linux if you compi
 ```
 g++ *.cpp -o Test.exe -I./OpenCL/include -L./OpenCL/lib -lOpenCL
 ```
+
+From: https://stackoverflow.com/questions/56858213/how-to-create-nvidia-opencl-project
