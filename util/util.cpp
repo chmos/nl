@@ -14,7 +14,7 @@ static void str2file(const string& s, const string& file) {
   if (fp != NULL) {
     fwrite(s.c_str(), 1, s.length(), fp);
     fclose(fp);
-	}
+  }
 }
 
 /** split a string */
@@ -25,8 +25,8 @@ static void splitStr(const string& s, const string& dim,
   if (dim.empty()) {
     seg.push_back(s);
     return;
-	}
-
+  }
+	
 	size_t st = 0, ed = s.find(dim);
   while (ed != string::npos) {
     string a = (ed == st) ? "" : s.substr(st, ed - st);
@@ -34,10 +34,9 @@ static void splitStr(const string& s, const string& dim,
 
     st = ed + dim.length();
     ed = s.find(dim, st);
-	}
-
+  }
 	string b = s.substr(st);
-  seg.push_back(b);
+	seg.push_back(b);
 }
 
 
@@ -57,7 +56,7 @@ static void splitTrim(const string& s, const string& dim,
     
     st = ed + dim.length();
     ed = s.find(dim, st);
-	}
+  }
 
   string b = s.substr(st);
   seg.push_back(Util::trim(b));
