@@ -6,8 +6,11 @@ There are 2 ways to access the server:
 1. remote desktop
   After disconnect from remote desktop, your apps are still running
    
-2. ssh gauss@cesium-miner
-   sftp gauss@cesium-miner
+2. ssh
+  ```batch
+  ssh gauss@cesium-miner
+  sftp gauss@cesium-miner
+  ```
 
   After disconnect, the processes you start in the SSH terminal will terminate
 
