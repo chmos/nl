@@ -1,4 +1,4 @@
-# natural language to plot
+# Natural Language Processing and ODE
 
 ## Setup server and access
 There are 2 ways to access the server:
