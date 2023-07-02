@@ -16,7 +16,7 @@ There are 2 ways to access the server:
 
 ## Jupyterlab
 You can start Jupyter lab server either through remote desktop or ssh
-```batch
+```shell
 # start the server and people can access remotely (from another computer)
 # note the port number. It typically is 8888, but can be 8889, ...,
 # if another server has been running
