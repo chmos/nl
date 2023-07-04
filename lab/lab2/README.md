@@ -75,7 +75,7 @@ plt.plot(np.arange(len(ep)), ep)
 ```
 
 ### Practice
-1. Create a model with 2 parameters $k1$, $k2$, that outputs $ y = \sin(k1 * x[0] + k2 * x[1])$
+1. Create a model with 2 parameters $k1$, $k2$, that outputs $y = \sin(k_1 x_1 + k_2  x_2)$
    You can treat $k1,k2$ as one tensor with 2 entries
 
 2. Suppose there are $N$ samples, each sample is a 2-entries tensor, as shown in the above section. What dimensions does the output have? Write a function to generate the input and output samples.
