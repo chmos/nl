@@ -28,7 +28,9 @@ sn = Sin()
 print(sn)
 ```
 This model has only 1 parameter `w`. The line 
+
 `self.w = torch.nn.Parameter(torch.rand(1))` 
+
 declare it is a parameter, and initialized as a random number.
 
 ### Train this model
@@ -77,7 +79,7 @@ plt.plot(np.arange(len(ep)), ep)
 ```
 
 ### Practice
-1. Create a model with 2 parameters $k1$, $k2$, that outputs $y = \sin(k_1 x_1 + k_2  x_2)$
+1. Create a model with 2 parameters $k1$, $k2$, that outputs $y = \sin(k_1 x_1 + k_2  x_2)$.
    You can treat $k1,k2$ as one tensor with 2 entries
 
 2. Suppose there are $N$ samples, each sample is a 2-entries tensor, as shown in the above section. What dimensions does the output have? Write a function to generate the input and output samples.
