@@ -27,7 +27,9 @@ class Sin(nn.Module):
 sn = Sin()
 print(sn)
 ```
-This model has only 1 parameter `w`. The line `self.w = torch.nn.Parameter(torch.rand(1))` declare it is a parameter, and initialized as a random number.
+This model has only 1 parameter `w`. The line 
+`self.w = torch.nn.Parameter(torch.rand(1))` 
+declare it is a parameter, and initialized as a random number.
 
 ### Train this model
 ```python
