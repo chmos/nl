@@ -3,7 +3,7 @@
 ## Setup server and access
 There are 2 ways to access the server:
 
-1. remote desktop
+1. remote desktop (RDP)
   After disconnect from remote desktop, your apps are still running
    
 2. ssh
@@ -25,5 +25,21 @@ jpt20 remote
 # start the server and access it locally
 jpt20
 ```
- 
+
+## Change sleep mode
+After you login the server (ssh or RDP), typing the following command in a terminal:
+```shell
+sleep20 [x]
+```
+The PC will go to sleep after idling for x minutes. E.g.
+```shell
+sleep 20 45
+```
+will make the PC go to sleep if idling for 45 minutes.
+```shell
+sleep20 0
+```
+will make the PC NEVER sleep
+
+The utility `sleep20.bat` is located in `C:\workcc\usaco\utils`
 
