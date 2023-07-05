@@ -15,7 +15,7 @@ $$
 y = \sin(x)
 $$
 
-```python=
+```python
 # create a customized module
 class Sin(nn.Module):
     def __init__(self):
@@ -41,20 +41,6 @@ declare it is a parameter, and initialized as a random number.
 
 ### Train this model
 ```python
-# create a customized module
-class Sin(nn.Module):
-    def __init__(self):
-        super(Sin, self).__init__()
-        # -- must register this as parameter
-        self.w = torch.nn.Parameter(torch.rand(1))
-
-    # xb is a bacth of x_i, i.e., x1, x2, .., xn
-    # y = sin(k1*x0 + k2*x1)
-    def forward(self, input):
-        output = torch.sin(input * self.w)
-        # output.requires_grad=True
-        return output
-
 # generate a sample batch: 20*2 input tensors, 20*2 output tensors
 # there are 20 samples in a batch
 def gen_samples(k):
