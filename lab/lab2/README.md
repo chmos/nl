@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 This snippet creates a module (or layer) that outputs the sin of the input
 
 $$
-y = \sin(x)
+y = \sin(wx)
 $$
 
 ```python
