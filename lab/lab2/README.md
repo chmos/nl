@@ -1,6 +1,12 @@
 # Lab 2
 ### Prepare
-Create a new notebook
+Create a new notebook and import the related packages:
+```python
+import numpy as np
+import torch
+import torch.nn as nn
+import matplotlib.pyplot as plt
+```
 
 ### Create a customized module
 This snippet creates a module (or layer) that outputs the sin of the input
