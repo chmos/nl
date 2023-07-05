@@ -86,7 +86,7 @@ plt.plot(np.arange(len(ep)), ep)
 3. Train the model with the generated samples, compare the trained $k1, k2$ with the $k1,k2$ you used to generate the samples, and plot the losses
 4. In the line defining the optimizer, change the `weight_decay`, e.g., to $10^{-2}$. Repeat the step 3, what conclusion do you get?
 
-### Parctise 2
+### Practise 2
 Now create a module with 2 layers. The first layer is a linear layer, and the second layer is the Sin module you have just created. Now the output $z$ is given by
 
 $$
@@ -98,4 +98,8 @@ z = k_1 y_1 + k_2 y_2
 $$
 
 Create the model, training samples, train and plot losses
+
+### Upload your notebook
+Submit your notebook to your GitHub. You can use use "File -> Download" to download a notebook to your local machine. And then directly drag it after you click "Add file" in your GitHub page.
+
 
