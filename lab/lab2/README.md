@@ -103,7 +103,7 @@ $$
 $$
 
 $$
-z = k_1 y_1 + k_2 y_2
+z = \sin(k_1 y_1 + k_2 y_2)
 $$
 
 Create the model, training samples, train and plot losses
@@ -112,6 +112,6 @@ Create the model, training samples, train and plot losses
 Submit your notebook to your GitHub. You can use use "File -> Download" to download a notebook to your local machine. And then directly drag it after you click "Add file" in your GitHub page.
 
 ### Sample solution
-[Practise](lab2.ipynb)
+[Practice](lab2.ipynb)
 
 
