@@ -89,10 +89,10 @@ plt.plot(np.arange(len(ep)), ep)
 
 ### Practice 1
 1. Create a model with 2 parameters $k_1$, $k_2$, that outputs $y = \sin(k_1 x_1 + k_2  x_2)$.
-   You can treat $k1,k2$ as one tensor with 2 entries
+   You can treat $k_1, k_2$ as one tensor with 2 entries
 
 2. Suppose there are $N$ samples, each sample is a 2-entries tensor, as shown in the above section. What dimensions does the output have? Write a function to generate the input and output samples.
-3. Train the model with the generated samples, compare the trained $k1, k2$ with the $k1,k2$ you used to generate the samples, and plot the losses
+3. Train the model with the generated samples, compare the trained $k_1, k_2$ with the $k1,k2$ you used to generate the samples, and plot the losses
 4. In the line defining the optimizer, change the `weight_decay`, e.g., to $10^{-2}$. Repeat the step 3, what conclusion do you get?
 
 ### Practise 2
