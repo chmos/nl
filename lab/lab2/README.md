@@ -88,9 +88,11 @@ plt.plot(np.arange(len(ep)), ep)
 
 ### Parctise 2
 Now create a module with 2 layers. The first layer is a linear layer, and the second layer is the Sin module you have just created. Now the output $z$ is given by
+
 $$
 (y_1, y_2) = (x_1, x_2)A^T + b 
 $$
+
 $$
 z = k_1 y_1 + k_2 y_2
 $$
