@@ -111,4 +111,7 @@ Create the model, training samples, train and plot losses
 ### Upload your notebook
 Submit your notebook to your GitHub. You can use use "File -> Download" to download a notebook to your local machine. And then directly drag it after you click "Add file" in your GitHub page.
 
+### Sample solution
+[Practise](lab2.ipynb)
+
 
