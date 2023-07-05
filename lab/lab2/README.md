@@ -103,7 +103,7 @@ $$
 $$
 
 $$
-z = \sin(k_1 y_1 + k_2 y_2)
+z = \sin\left( k_1 y_1 + k_2 y_2 \right)
 $$
 
 Create the model, training samples, train and plot losses
