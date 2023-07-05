@@ -35,6 +35,20 @@ declare it is a parameter, and initialized as a random number.
 
 ### Train this model
 ```python
+# create a customized module
+class Sin(nn.Module):
+    def __init__(self):
+        super(Sin, self).__init__()
+        # -- must register this as parameter
+        self.w = torch.nn.Parameter(torch.rand(1))
+
+    # xb is a bacth of x_i, i.e., x1, x2, .., xn
+    # y = sin(k1*x0 + k2*x1)
+    def forward(self, input):
+        output = torch.sin(input * self.w)
+        # output.requires_grad=True
+        return output
+
 # generate a sample batch: 20*2 input tensors, 20*2 output tensors
 # there are 20 samples in a batch
 def gen_samples(k):
@@ -47,13 +61,16 @@ def gen_samples(k):
 # train the model once, and return the loss in this epoch
 def train_epoch(batch_in, batch_out, optimizer, model):
     input = batch_in
-    output = sn(input)
+    output = model(input)
     loss = nn.functional.l1_loss(output, batch_out)
     model.zero_grad()
     loss.backward()
     optimizer.step()
     return loss
-    
+
+# instance of the model
+sn = Sin()
+print(sn)
 # optimizer for training
 optimizer = torch.optim.SGD(sn.parameters(), lr = 1e-4, 
                             weight_decay = 1e-3, momentum = 0.9)
