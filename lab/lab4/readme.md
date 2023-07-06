@@ -24,4 +24,7 @@ Show the image and predicted classes (using `inet`). The output looks like this
 Download other images and try predict
 
 ### Construct
-Write a small Resnet and train with ImageNet samples and test, follow the procedure in Lab 3, but the images are loaded from MNIST
+Write a small Resnet and train with ImageNet samples and test, follow the procedure in Lab 3, but the images are loaded from ImageNet.
+
+Note that you should only use a small part of ImageNet, follow: [example](https://discuss.pytorch.org/t/how-to-get-a-part-of-datasets/82161) The whole ImageNet has 1.2 million images, and maybe takes 140GB disk space
+
