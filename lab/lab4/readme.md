@@ -19,4 +19,4 @@ inet = load_imagenet_classes()
 ### Compare predictions
 Show the image and predicted classes (using `inet`). The output looks like this
 ![prediction](./dog_resnet.png)
-<img src="dog_resnet.jpg" alt="prediction" width="200"/>
+<img src="./dog_resnet.png" alt="prediction" width="200"/>
