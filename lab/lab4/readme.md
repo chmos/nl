@@ -29,7 +29,7 @@ Write a small Resnet and train with ImageNet samples and test, follow the proced
 Note that you should only use a small part of ImageNet, follow: [example](https://discuss.pytorch.org/t/how-to-get-a-part-of-datasets/82161). The whole ImageNet has 1.2 million images, and maybe takes 140GB disk space
 
 ### Data preparation
-We will use STL-10, a subset of ImageNet. The images in this sub-set are all 96x96. So resize your Resnet accordingly. The data set has been downloaded. The snippet prepares the data set as well as the loader
+We will use STL-10, a subset of ImageNet. The images in this sub-set are all $96\times 96$. So resize your Resnet accordingly. The data set has been downloaded. The snippet prepares the data set as well as the loader
 ```python
 preprocess = transforms.Compose([
     transforms.Resize(96),
