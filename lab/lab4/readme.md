@@ -103,3 +103,4 @@ plt.imshow(b)
 plt.axis('equal')
 ```
 
+<img src="./horse_stl10.png" alt="A sample" width="400"/>
