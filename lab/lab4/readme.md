@@ -72,26 +72,6 @@ strain = torch.utils.data.Subset(trainset, idx)
 print('sub trainset size =', len(strain))
 ```
 
-This snippet shows how to view a sample. It is basically a list containing 
-1) a tensor (image) and
-2) a label
-    
-```python
-def normalize_for_plot(a):
-    c0 = a.min(); c1 = a.max()
-    a = (a - c0) / (c1 - c0)
-    return a.permute(1, 2, 0);
-
-k = 10
-a = trainset[k][0]
-print(a.shape)
-
-b = normalize_for_plot(a)
-plt.figure(figsize = (3, 3))
-plt.imshow(b)
-plt.axis('equal')
-```
-
 This snippet gets the class names:
 ```python
 stl10_dir = '/workpy/labs/stl10/'
@@ -102,4 +82,24 @@ print('class names: ', cname)
 ```
 
 > class names:  ['airplane', 'bird', 'car', 'cat', 'deer', 'dog', 'horse', 'monkey', 'ship', 'truck', '']
+
+This snippet views a sample. It is basically a list containing 
+1) a tensor (image) and
+2) a label
+    
+```python
+def normalize_for_plot(a):
+    c0 = a.min(); c1 = a.max()
+    a = (a - c0) / (c1 - c0)
+    return a.permute(1, 2, 0);
+
+k = 17
+a = trainset[k]
+print(a[0].shape, 'label =', cname[a[1]])
+
+b = normalize_for_plot(a[0])
+plt.figure(figsize = (3, 3))
+plt.imshow(b)
+plt.axis('equal')
+```
 
