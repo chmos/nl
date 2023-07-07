@@ -41,10 +41,10 @@ preprocess = transforms.Compose([
 # https://pytorch.org/vision/0.8/datasets.html#stl10
 # https://cs.stanford.edu/~acoates/stl10/
 # all images in STL-10 set are 96*96
-trainset = torchvision.datasets.STL10('./stl10/', 'train', 
+trainset = torchvision.datasets.STL10('/workpy/labs/stl10/', 'train', 
                                      download=True, transform = preprocess)
 
-testset = torchvision.datasets.STL10('./stl10/', 'test', 
+testset = torchvision.datasets.STL10('/workpy/labs/stl10/', 'test', 
                                      download=True, transform = preprocess)
 
 print('train size =', len(trainset), '; test size =', len(testset))
@@ -73,8 +73,8 @@ print('sub trainset size =', len(strain))
 ```
 
 This snippet shows how to view a sample. It is basically a list containing 
-1) tensor (image) and
-2) label
+1) a tensor (image) and
+2) a label
     
 ```python
 def normalize_for_plot(a):
