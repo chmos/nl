@@ -92,4 +92,14 @@ plt.imshow(b)
 plt.axis('equal')
 ```
 
+This snippet gets the class names:
+```python
+stl10_dir = '/workpy/labs/stl10/'
+filename = stl10_dir + 'stl10_binary/class_names.txt'
+
+cname = open(filename, 'r').read().split('\n')
+print('class names: ', cname)
+
+class names:  ['airplane', 'bird', 'car', 'cat', 'deer', 'dog', 'horse', 'monkey', 'ship', 'truck', '']
+```
 
