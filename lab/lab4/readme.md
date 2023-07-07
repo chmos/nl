@@ -99,7 +99,7 @@ filename = stl10_dir + 'stl10_binary/class_names.txt'
 
 cname = open(filename, 'r').read().split('\n')
 print('class names: ', cname)
-
-class names:  ['airplane', 'bird', 'car', 'cat', 'deer', 'dog', 'horse', 'monkey', 'ship', 'truck', '']
 ```
+
+> class names:  ['airplane', 'bird', 'car', 'cat', 'deer', 'dog', 'horse', 'monkey', 'ship', 'truck', '']
 
