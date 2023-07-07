@@ -23,8 +23,12 @@ Show the image and predicted classes (using `inet`). The output looks like this
 ### Explore
 Download other images and try predict
 
-### Construct
+## Construct your own Resnet
 Write a small Resnet and train with ImageNet samples and test, follow the procedure in Lab 3, but the images are loaded from ImageNet.
 
 Note that you should only use a small part of ImageNet, follow: [example](https://discuss.pytorch.org/t/how-to-get-a-part-of-datasets/82161). The whole ImageNet has 1.2 million images, and maybe takes 140GB disk space
+
+### Data preparation
+We will use STL-10, a subset of ImageNet. The images in this sub-set are all 96x96. So resize your Resnet accordingly.
+
 
