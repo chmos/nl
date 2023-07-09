@@ -109,3 +109,21 @@ plt.axis('equal')
 [Refer](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html?highlight=nn%20conv2d)
 
 [Its model](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-convolutional-neural-network)
+
+### Check the tensor shape after each layer
+Suppose the net is a sequential of its children blocks, you can use this snippet to quickly find the tensor shape after each layer.
+```python
+x = input;
+print(x.shape)
+print('-------')
+
+for fi in net.children():
+    print(fi)
+    x = fi(x)
+    print(x.shape)
+    print('-------')
+
+# print(x)
+```
+
+If the forward pass is not necessarily the sequence of the blocks, you should follow the process in the method `forward`.
