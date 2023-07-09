@@ -107,4 +107,5 @@ plt.axis('equal')
 
 ### Another training example
 [Refer](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html?highlight=nn%20conv2d)
+
 [Its model](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html?highlight=nn%20conv2d)
