@@ -104,3 +104,6 @@ plt.axis('equal')
 ```
 
 <img src="./horse_stl10.png" alt="A sample" width="400"/>
+
+### Another training example
+[Refer](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html?highlight=nn%20conv2d)
