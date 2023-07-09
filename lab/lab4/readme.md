@@ -105,7 +105,7 @@ plt.axis('equal')
 
 <img src="./horse_stl10.png" alt="A sample" width="400"/>
 
-### Another training example
+### Another training tutorial
 [Refer](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html?highlight=nn%20conv2d)
 
 [Its model](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-convolutional-neural-network)
