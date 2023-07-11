@@ -22,5 +22,17 @@ for i in cname:
 fp.close()
 ```
 
+Then you can easily read the names from the text file:
+```python
+# get all the names in the Pascal trainset
+cname = open('/workpy/labs/voc/category.txt').read().split('\n')
+print(cname)
+
+print(cname.index('cat'))
+```
+> **Output**
+> ['horse', 'cat', 'car', 'chair', 'motorbike', 'cow', 'bottle', 'pottedplant', 'tvmonitor', 'aeroplane', 'sofa', 'sheep', 'bus', 'boat', 'bird', 'dog', 'train', 'bicycle', 'person', 'diningtable']
+> 1
+
 ## Transfer learning
 
