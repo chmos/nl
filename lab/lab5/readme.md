@@ -31,7 +31,9 @@ print(cname)
 print(cname.index('cat'))
 ```
 > **Output**
+>
 > ['horse', 'cat', 'car', 'chair', 'motorbike', 'cow', 'bottle', 'pottedplant', 'tvmonitor', 'aeroplane', 'sofa', 'sheep', 'bus', 'boat', 'bird', 'dog', 'train', 'bicycle', 'person', 'diningtable']
+> 
 > 1
 
 ## Transfer learning
