@@ -37,9 +37,10 @@ print(a[0].shape)
 print(a[1])
 ```
 > torch.Size([3, 224, 224])
+> 
 > {'annotation': {'folder': 'VOC2010', 'filename': '2008_000008.jpg', 'source': {'database': 'The VOC2008 Database', 'annotation': 'PASCAL VOC2008', 'image': 'flickr'}, 'size': {'width': '500', 'height': '442', 'depth': '3'}, 'segmented': '0', 'object': [{'name': 'horse', 'pose': 'Left', 'truncated': '0', 'occluded': '1', 'bndbox': {'xmin': '53', 'ymin': '87', 'xmax': '471', 'ymax': '420'}, 'difficult': '0'}, {'name': 'person', 'pose': 'Unspecified', 'truncated': '1', 'occluded': '0', 'bndbox': {'xmin': '158', 'ymin': '44', 'xmax': '289', 'ymax': '167'}, 'difficult': '0'}]}}
 
-A sample is a tuple. The 1st entry is an image and the 2nd one is the annotation in the form of a dictionary.
+The sample is a tuple. The 1st entry is an image and the 2nd one is the annotation in the form of a dictionary.
 
 ### Find all category names
 ```python
@@ -72,7 +73,58 @@ print(cname.index('cat'))
 
 There are 20 categories in Pascal VOC. 
 
-### Get annotations 
+### Extract object names and bounding boxes from annotations 
+```python
+# return all the names, bounding boxes,
+# and the index of the major item (the one with
+# the largest bounding box)
+def get_annotation(a):
+    sz = a['annotation']['size']
+    width = float(sz['width'])
+    height = float(sz['height'])
+    
+    lab = a['annotation']['object']
+    names = []; borders = [];
+    idx = 0; max_sz = 0
+    cnt = 0
+    for i in lab:
+        names.append(i['name'])
+        j = i['bndbox']
+        x0 = float(j['xmin']) / width
+        x1 = float(j['xmax']) / width
+        y0 = float(j['ymin']) / height
+        y1 = float(j['ymax']) / height
+        borders.append([x0, y0, x1, y1])
+        sz = (x1 - x0 + 1) * (y1 - y0 + 1)
+        if sz > max_sz:
+            max_sz = sz
+            idx = cnt
+        cnt+=1
+    return names, borders, idx
+
+# get the class index of a name
+def get_index(cnames, name):
+    return cnames.index(name);
+
+# get all the names in the Pascal trainset
+cname = open('/workpy/labs/voc/category.txt').read().split('\n')
+print('names =', cname)
+print('index of cat is', cname.index('cat'))
+```
+The bounding boxes are normalzied by the width (`x`) and height (`y`) of the image, so all
+the 4 values are in $\left[ 0,1 \right]$
+
+The 3rd returned value, `idx`, is the index of the major object, which has the largest
+bounding box.
+
+Test the extract method and see what the result looks like
+```python
+a = trainset[0]
+p, q, r = get_annotation(a[1])
+print('p =', p)
+print('q =', q)
+print('r =', r)
+```
 
 ## Transfer learning
 
