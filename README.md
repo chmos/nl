@@ -1,4 +1,5 @@
 # Natural Language Processing and ODE
+Current active server is **lithium-miner**, not **cesium-miner**
 
 ## Setup server and access
 There are 2 ways to access the server:
