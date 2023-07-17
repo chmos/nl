@@ -236,6 +236,7 @@ class ResDet(nn.Module):
     def __init__(self):
         super(ResDet, self).__init__()
         self.fe = copy.deepcopy(nn.Sequential(*list(res18.children())[:-2]))
+        # -- make sure these layers are not subject to change
         self.fe.requires_grad = False
         for p in self.fe.parameters():
             p.requires_grad = False
@@ -265,3 +266,64 @@ class ResDet(nn.Module):
         # x = torch.flatten(x, start_dim = 1)
         return y, z
 ```
+The line `self.fe = copy.deepcopy(nn.Sequential(*list(res18.children())[:-2]))` creates a deep copy of the Resnet-18 model
+except for the last 2 layers. Without the deepcopy, `self.se` will be a reference to the loaded Resnet-18 model, thus 
+any change to `self.se` will also impact the Resnet-18 instance.
+
+Questions:
+
+1. How do we tell Pytorch not to change the pretrained part?
+2. What layers are the two heads? What do they do?
+3. The model `ResDet` returns two tensors. What are their shapes?
+
+You can take a look at the result of ResDet, and compare it with Resnet-18:
+```python
+rd = ResDet()
+a, b = rd(input_batch)
+
+print(input_batch.shape, a.shape, b.shape)
+print('a =', a)
+print('b =', b)
+
+a = res18(input_batch)
+print('c =', a.shape)
+```
+
+### Run a sample
+This is what a sample image and its annotation looks like:
+```python
+k = 1
+a = trainset[k]
+sz = a[1]['annotation']['size']
+lab = a[1]['annotation']['object']
+print(sz, '\n------')
+print(lab, '\n------')
+for i in lab:
+    print(i['name'], i['bndbox'])
+
+nm, roi, idx = get_annotation(a[1])
+for i in range(len(roi)):
+    print(nm[i], roi[i])
+print('largest = ', idx)
+
+plot_tensor(a[0], nm, roi)
+```
+>{'width': '500', 'height': '327', 'depth': '3'}
+>
+>------
+>
+>[{'name': 'bottle', 'pose': 'Unspecified', 'truncated': '1', 'occluded': '1', 'bndbox': {'xmin': '270', 'ymin': '1', 'xmax': '378', 'ymax': '176'}, 'difficult': '0'}, {'name': 'bottle', 'pose': 'Unspecified', 'truncated': '1', 'occluded': '1', 'bndbox': {'xmin': '57', 'ymin': '1', 'xmax': '164', 'ymax': '150'}, 'difficult': '0'}] 
+>
+>------
+>
+>bottle {'xmin': '270', 'ymin': '1', 'xmax': '378', 'ymax': '176'}
+>
+>bottle {'xmin': '57', 'ymin': '1', 'xmax': '164', 'ymax': '150'}
+>
+>bottle [0.54, 0.0030581039755351682, 0.756, 0.5382262996941896]
+>
+>bottle [0.114, 0.0030581039755351682, 0.328, 0.45871559633027525]
+>
+>largest =  0
+
+[Image](./bottles.png)
