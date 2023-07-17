@@ -326,4 +326,6 @@ plot_tensor(a[0], nm, roi)
 >
 >largest =  0
 
-<img src="./bottles.png" alt="image" width="500"/>
+> <img src="./bottles.png" alt="image" width="400"/>
+
+
