@@ -389,3 +389,103 @@ The two losses look like:
 >loss_cat = tensor(0., grad_fn=<NllLossBackward0>)
 >
 >loss_reg = tensor(0.0670, grad_fn=<MeanBackward0>)
+
+### Training
+```python
+# training
+USE_GPU = True if torch.cuda.is_available() else False
+device = torch.device("cuda:0" if USE_GPU else "cpu")
+print('Using', device)
+
+rd = rd.to(device)
+optimizer = optim.SGD(rd.parameters(), lr = 0.003, momentum = 0.9)
+
+time0 = time()
+num = len(trainloader)
+
+for i in range(30):
+    rloss_cat = 0
+    rloss_reg = 0
+    cnt = 0
+    for images, labels, bbox in trainloader:
+        images = images.to(device)
+        labels = labels.to(device)
+        bbox = bbox.to(device)
+
+        optimizer.zero_grad();
+        p, q = rd(images) #.to(device)
+        
+        # -- learning classification
+        loss = criterion_cat(p, labels) # calculate the NLL loss
+        loss.backward(retain_graph=True)
+        optimizer.step()
+        rloss_cat += loss.item()
+
+        # -- learning regression
+        loss = criterion_reg(q, bbox)
+        loss.backward()
+        optimizer.step()
+        rloss_reg += loss.item()
+
+        cnt += 1;
+        if cnt % 20 == 0:
+            print(rloss_cat /cnt, rloss_reg /cnt)
+        
+    print("Epoch {} - Training loss: {}, {}"
+          .format(i, rloss_cat/num, rloss_reg/num))
+    torch.save(rd, 'voc/resdet.pt' )
+    
+time1 = time()
+print('time elapsed', time1 - time0, 'sec')
+```
+
+**Question: how do we train with two targets? Any alternative methods?**
+
+### Compare prediction with ground truth
+```python
+def compare_predict(sample, model, plot = False):
+    if len(sample) == 2:
+        nm, roi, idx = get_annotation(sample[1])
+    else:
+        roi = None; nm = None;
+        
+    b = sample[0].unsqueeze(0)
+    with torch.no_grad:
+        p, q = model(b)
+    ps = p[0].tolist()
+    ip = ps.index(max(ps))
+    bd = list(q.detach().numpy())
+
+    if plot:
+        fig, ax = plt.subplots(1, 2)
+        SZ = 4
+        fig.set_figwidth(2 * SZ)
+        fig.set_figheight(SZ)
+        plot_tensor(sample[0], nm, roi, ax = ax[0])
+        plot_tensor(b[0], [cname[ip]], bd, ax = ax[1])
+
+    predict_cat = (cname[ip] == nm[idx])
+    c1 = np.array(roi[idx])
+    c2 = np.array(bd)
+    predict_bbox = np.sum(abs(c1 - c2) / 4)
+    return predict_cat, predict_bbox
+```
+
+This script loads the validation set:
+```python
+valset = torchvision.datasets.VOCDetection('/workpy/labs/voc', 
+    year = '2010', image_set = 'val', download = True, transform = preprocess)
+valloader = torch.utils.data.DataLoader(
+    valset, batch_size = 10, shuffle = True, collate_fn = sample2tensors)
+```
+
+Here is an comparison:
+```python
+k = 2565
+a = valset[k]
+p1, p2 = compare_predict(a, rd, plot = True)
+print(p1, p2)
+```
+>True 0.040106767416000375
+
+> <img src="./buses.png" alt="compare labels" width="400"/>
