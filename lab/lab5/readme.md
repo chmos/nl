@@ -439,7 +439,9 @@ time1 = time()
 print('time elapsed', time1 - time0, 'sec')
 ```
 
-**Question: how do we train with two targets? Any alternative methods?**
+**Question:**
+1. how do we train with two targets? Any alternative methods?
+2. Why we do `torch.save(rd, 'voc/resdet.pt' )` at the end of every epoch?
 
 ### Compare prediction with ground truth
 ```python
