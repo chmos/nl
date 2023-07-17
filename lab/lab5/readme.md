@@ -328,4 +328,23 @@ plot_tensor(a[0], nm, roi)
 
 > <img src="./bottles.png" alt="image" width="400"/>
 
+This is the result of running this sample through a ResDet model:
+```python
+input_batch = a[0].unsqueeze(0)
+p, q = rd(input_batch)
+ps = p[0].tolist()
+idx = ps.index(max(ps))
+print(p, q)
+bd = list(q.detach().numpy())
+print(bd)
+plot_tensor(input_batch[0], [cname[idx]], bd)
+```
 
+> tensor([[-88.9276, -12.7574, -23.5247, -52.9646,  35.9669, -94.3761, 191.4834,
+          89.0961,  35.9469,   7.9138,  74.9024, -92.3355, -44.1593, -19.3539,
+          31.6256,  41.5780,  68.8715,  39.2943, -71.7569, -61.9095, -46.1749]],
+       grad_fn=<AddmmBackward0>) tensor([[0.2734, 0.0294, 0.8812, 0.7048]], grad_fn=<SigmoidBackward0>)
+>
+> [array([0.27340728, 0.0293836 , 0.8811949 , 0.70484483], dtype=float32)]
+
+> > <img src="./bottles_seg.png" alt="labeled image" width="400"/>
