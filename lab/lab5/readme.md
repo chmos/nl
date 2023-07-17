@@ -8,7 +8,7 @@ The tasks:
 1. Identify the main object (one of the 20 categories)
 2. Find the bounding box of this main object: output $(x_0,y_0,x_1,y_1)$
 
-# Data preparation
+## Data preparation
 We will use [Pascal VOC data set](https://pytorch.org/vision/0.8/datasets.html#torchvision.datasets.VOCDetection)
 
 ### Load dataset
@@ -208,4 +208,60 @@ into tensors.
 
 
 ## Transfer learning
+By Transfer Learning (TL), we take a pretrained model, keep most of the layers unchanged, remove the 
+unwanted layers (usually the first or last couple of layers), and add our own layers. In training, 
+we keep the pretrained layers unchanged, and only train our own layers.
 
+In this work, we will add two separate modules (called **"heads"**) to Resnet-18 model. One is for 
+classification, and the other is for regression (outputing the bounding box).
+
+### Load Resnet-18 model
+```python
+# -- load pretrained Resnet-18 model
+res18 = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=True)
+# or any of these variants
+# model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet34', pretrained=True)
+# model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', pretrained=True)
+# model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet101', pretrained=True)
+# model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet152', pretrained=True)
+res18.eval()
+```
+### Define customized model
+```python
+# -- now ready for define classification and regression layer
+import torch.nn.functional as F
+import copy
+
+class ResDet(nn.Module):
+    def __init__(self):
+        super(ResDet, self).__init__()
+        self.fe = copy.deepcopy(nn.Sequential(*list(res18.children())[:-2]))
+        self.fe.requires_grad = False
+        for p in self.fe.parameters():
+            p.requires_grad = False
+        # 
+        # self.cat = nn.Conv2d(512, 21, 1, 1) # 512 channels => 21 channels
+
+        # -- classification
+        self.cat = nn.Linear(512 * 7 * 7, 21) # 512 channels => 21 channels
+
+        # -- regression
+        self.reg = nn.Sequential(
+            nn.Dropout(0.5),
+            nn.Flatten(1),
+            nn.Linear(512*7*7, 1024),
+            nn.ReLU(),
+            # nn.BatchNorm1d(1024),
+            nn.Dropout(0.5),
+            nn.Linear(1024, 4),
+            nn.Sigmoid()
+        )
+
+    # xb is a bacth of x_i, i.e., x1, x2, .., xn
+    def forward(self, input):
+        x = self.fe(input)
+        y = self.cat(torch.flatten(x, 1))
+        z = self.reg(x);
+        # x = torch.flatten(x, start_dim = 1)
+        return y, z
+```
