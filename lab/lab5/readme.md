@@ -111,7 +111,7 @@ cname = open('/workpy/labs/voc/category.txt').read().split('\n')
 print('names =', cname)
 print('index of cat is', cname.index('cat'))
 ```
-The bounding boxes are normalzied by the width (`x`) and height (`y`) of the image, so all
+The bounding boxes are normalzied by the width ($x$) and height ($y$) of the image, so all
 the 4 values are in $\left[ 0,1 \right]$
 
 The 3rd returned value, `idx`, is the index of the major object, which has the largest
@@ -125,6 +125,79 @@ print('p =', p)
 print('q =', q)
 print('r =', r)
 ```
+
+### Plotting function
+```python
+def normalize_for_plot(a):
+    c0 = a.min(); c1 = a.max()
+    a = (a - c0) / (c1 - c0)
+    return a.permute(1, 2, 0);
+
+def plot_tensor(x, names = None, borders = None, ax = plt):
+    a = normalize_for_plot(x)
+    ax.imshow(a)
+    if names is not None:
+        h = a.shape[0]
+        w = a.shape[1]
+        for i in range(len(borders)):
+            text = names[i]
+            bd = borders[i]
+            x0 = bd[0] * w; y0 = bd[1] * h;
+            x1 = bd[2] * w; y1 = bd[3] * h;
+            ax.plot([x0, x1, x1, x0, x0], [y0, y0, y1, y1, y0])
+            ax.text(x0 * 0.9 + x1 * 0.1, y0 * 0.9 + y1 * 0.1, text, color = 'red')
+    
+    ax.axis('equal')
+    ax.axis('off')
+```
+Test the functions on one sample:
+```python
+k = 1
+a = trainset[k]
+sz = a[1]['annotation']['size']
+lab = a[1]['annotation']['object']
+print(sz, '\n------')
+print(lab, '\n------')
+for i in lab:
+    print(i['name'], i['bndbox'])
+
+nm, roi, idx = get_annotation(a[1])
+for i in range(len(roi)):
+    print(nm[i], roi[i])
+print('largest = ', idx)
+
+plot_tensor(a[0], nm, roi)
+```
+
+### Prepare data loader
+```python
+# convert the annotaion to three tensors
+# => [images, labels, boxes]
+def sample2tensors(samples):
+    img_list = [i[0] for i in samples];
+    lab_list = []; bbox_list = [];
+    for i in samples:
+        names, borders, idx = get_annotation(i[1]);
+        lab = torch.tensor(get_index(cname, names[idx]), dtype=torch.int64)
+        lab_list.append(lab)
+        bd = torch.tensor(borders[idx])
+        bbox_list.append(bd)
+    images = torch.stack(img_list)
+    labels = torch.stack(lab_list)
+    bbox = torch.stack(bbox_list)
+    return images, labels, bbox
+
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size = 32, shuffle = True, collate_fn = sample2tensors)
+```
+
+A batch contains one or more tensors. E.g. one tensor contains the input images,
+and the other tensor contains the corresponding labels. If the batch size is $B$ (e.g. $B=32$),
+and the image size is $3\times 224\times 224$ (RGB channels, height 224, width 224), and the
+label is an integer. Then the batch contains 2 tensors, one's shape is $[B,3,224,224]$, and the
+other's shape is $[B]$.
+
+
 
 ## Transfer learning
 
