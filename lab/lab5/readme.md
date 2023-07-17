@@ -489,3 +489,10 @@ print(p1, p2)
 >True 0.040106767416000375
 
 > <img src="./buses.png" alt="compare labels" width="400"/>
+
+### Testing
+Test the trained model on `valset`. You can apply the method `compare_predict(a, rd, plot = False)`
+to every sample `a` in the `valset`.
+
+
+```
