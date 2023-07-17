@@ -270,7 +270,7 @@ The line `self.fe = copy.deepcopy(nn.Sequential(*list(res18.children())[:-2]))` 
 except for the last 2 layers. Without the deepcopy, `self.se` will be a reference to the loaded Resnet-18 model, thus 
 any change to `self.se` will also impact the Resnet-18 instance.
 
-Questions:
+**Questions**:
 
 1. How do we tell Pytorch not to change the pretrained part?
 2. What layers are the two heads? What do they do?
@@ -347,4 +347,45 @@ plot_tensor(input_batch[0], [cname[idx]], bd)
 >
 > [array([0.27340728, 0.0293836 , 0.8811949 , 0.70484483], dtype=float32)]
 
-> > <img src="./bottles_seg.png" alt="labeled image" width="400"/>
+> <img src="./bottles_seg.png" alt="labeled image" width="400"/>
+
+### Loss
+To achieve 2 targets, we can define two loss functions. For classification, we usually use cross-entropy, which is 
+the combination of LogSoftmax and exponential normalization. For regression, we can use L1loss or L2loss to 
+evaluate the distance between two bounding boxes (they are vectors, anyway).
+```python
+# rd = ResDet()
+rd = torch.load('voc/resdet.pt')
+rd = rd.to('cpu')
+images, labels, bbox = next(iter(trainloader))
+p, q = rd(images)
+print('p, q =', p.shape, q.shape)
+print('labels = ', labels.shape)
+print('images = ', images.shape)
+# print('p = ', p)
+
+# classficiation loss
+criterion_cat = nn.CrossEntropyLoss()
+loss = criterion_cat(p, labels) # calculate the NLL loss
+print('loss_cat =', loss)
+
+# regression loss
+criterion_reg = nn.L1Loss()
+loss = criterion_reg(q, bbox)
+print('loss_reg =', loss)
+```
+
+If you **already have trained** the model for a while and **saved** the model into a file (e.g. 'voc/resdet.pt'),
+you can use `rd = torch.load('voc/resdet.pt')` to load this model. Otherwise you use `rd = ResDet()` to create 
+a new instance. 
+
+The two losses look like:
+>p, q = torch.Size([32, 21]) torch.Size([32, 4])
+>
+>labels =  torch.Size([32])
+>
+>images =  torch.Size([32, 3, 224, 224])
+>
+>loss_cat = tensor(0., grad_fn=<NllLossBackward0>)
+>
+>loss_reg = tensor(0.0670, grad_fn=<MeanBackward0>)
