@@ -8,7 +8,7 @@ The tasks:
 1. Identify the main object (one of the 20 categories)
 2. Find the bounding box of this main object: output $(x_0,y_0,x_1,y_1)$
 
-## Data preparation
+# Data preparation
 We will use [Pascal VOC data set](https://pytorch.org/vision/0.8/datasets.html#torchvision.datasets.VOCDetection)
 
 ### Load dataset
@@ -197,6 +197,14 @@ and the image size is $3\times 224\times 224$ (RGB channels, height 224, width 2
 label is an integer. Then the batch contains 2 tensors, one's shape is $[B,3,224,224]$, and the
 other's shape is $[B]$.
 
+For Pascal VOC, the labels are annotations, which must be converted to tensor form. The method 
+`sample2tensors` converts a list of samples into 3 tensors: images, labels, and bounding boxes.
+
+The data loader will pick up a random list of samples from the data set, and call this method 
+(`collate_fn = sample2tensors`) to convert the list to three tensors.
+
+The default `collate_fn` is `None`, which means the data loader will simply stack the sample entries
+into tensors.
 
 
 ## Transfer learning
