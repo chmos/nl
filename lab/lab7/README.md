@@ -1,7 +1,11 @@
 # Lab 7 Neural ODE
 
 # Ref
-- [A good introduction](https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/DL2/Dynamical_systems/dynamical_systems_neural_odes.html)
+- [DS - Dynamical Systems & Neural ODEs, a good introduction](https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/DL2/Dynamical_systems/dynamical_systems_neural_odes.html)
+
+- [PyTorch Implementation of Differentiable ODE Solvers](https://github.com/rtqichen/torchdiffeq/tree/master)
+
+- [Matlab: Dynamical System Modeling Using Neural ODE](https://www.mathworks.com/help/deeplearning/ug/dynamical-system-modeling-using-neural-ode.html)
 
 - [中文介绍](https://zhuanlan.zhihu.com/p/554790455)
 
