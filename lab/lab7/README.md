@@ -5,4 +5,4 @@
 
 - [中文介绍](https://zhuanlan.zhihu.com/p/554790455)
 
-- [可以用来预测和VAE](https://juejin.cn/post/7151320014975401991)
+- [NODE（神经常微分方程）介绍, 可以用来预测和VAE](https://juejin.cn/post/7151320014975401991)
