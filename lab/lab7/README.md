@@ -12,7 +12,8 @@
 - [NODE（神经常微分方程）介绍, 可以用来预测和VAE](https://juejin.cn/post/7151320014975401991)
 
 Tools that may be useful to your framewkork:
--[Autograd](https://github.com/HIPS/autograd)
+
+- [Autograd](https://github.com/HIPS/autograd)
 
 ## ODE
 Consider a simple ODE $\vec{x}'=A\vec{x}$:
