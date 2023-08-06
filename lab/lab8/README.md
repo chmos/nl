@@ -14,6 +14,8 @@
 
 **Transformer for vision**
 - [What is YOLOv5? A Guide for Beginners](https://blog.roboflow.com/yolov5-improvements-and-evaluation/)
+
+- [Vision Transformer and MLP-Mixer Architectures](https://github.com/google-research/vision_transformer)
   
 - [MViTv2: Improved Multiscale Vision Transformers for Classification and Detection](https://github.com/facebookresearch/mvit)
   
