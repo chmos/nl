@@ -36,7 +36,7 @@ Later we will replace the transformer by Spikformer. First, let's focus on 2 tas
 image classification and segmentation. The structure is a transformer followed by 2 heads:
 a FC for classification and a FC for segmentation.
 
-The input image is $224\times 224$, divided into $7\times 7 $ patches. The embedding of a patch
-is given by Resnet-18, which converts the whole image into $512\times 7 \times 7 $
+The input image is $224\times 224$, divided into $7\times 7$ patches. The embedding of a patch
+is given by Resnet-18, which converts the whole image into $512\times 7 \times 7$
 The embedding of each pacth
 
