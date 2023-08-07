@@ -37,6 +37,6 @@ image classification and segmentation. The structure is a transformer followed b
 a FC for classification and a FC for segmentation.
 
 The input image is $224\times 224$, divided into $7\times 7$ patches. The embedding of a patch
-is given by Resnet-18, which converts the whole image into $512\times 7 \times 7$
-The embedding of each pacth
+is given by Resnet-18, which converts the whole image into $512\times 7 \times 7$.
+The embedding of each patch then has a dimension of 512.
 
