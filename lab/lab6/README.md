@@ -30,4 +30,4 @@ Output:
 >
 > [ 0.1156, -1.6598,  0.9127,  0.6315]]],
 >
-> grad_fn=<NativeLayerNormBackward0>)
+> grad_fn=\<NativeLayerNormBackward0\>)
