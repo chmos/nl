@@ -40,3 +40,129 @@ The input image is $224\times 224$, divided into $7\times 7$ patches. The embedd
 is given by Resnet-18, which converts the whole image into $512\times 7 \times 7$.
 The embedding of each patch then has a dimension of 512.
 
+### image utilities
+Build a utility py script, named "pascal_voc":
+
+```python
+import numpy as np
+import torch
+import torchvision
+import matplotlib.pyplot as plt
+from time import time
+from torchvision import datasets, transforms
+from torch import nn, optim
+
+from PIL import Image
+from torchvision import transforms
+
+import torch.nn.functional as F
+import copy
+
+from scipy.io import loadmat
+from nn.pascal_voc import *
+```
+
+Usage:
+```python
+x = Image.open('test/cat.jpg')
+a = Voc.preprocess(x)
+print(a.shape)
+
+plt.figure()
+Voc.plot_tensor(a)
+```
+
+### ViT model
+```python
+# -- use CFAR-100-trained Resnet32 as front-end
+# Model	Top-1 Acc.(%)	Top-5 Acc.(%)	#Params.(M)	#MAdds(M)
+# resnet32	70.16	90.89	0.47	69.13
+# https://github.com/chenyaofo/pytorch-cifar-models
+from zoo.resnet import *
+
+res32 = cifar100_resnet32()
+res32.load_state_dict(torch.load
+                      ('zoo/cifar100_resnet32-84213ce6.pt'))    
+res32.eval()
+
+# -- the transformer
+tf = nn.Transformer(d_model = 256, nhead = 8, batch_first = True)
+
+class TFDet(nn.Module):
+    def __init__(self, categories = 460):
+        super(TFDet, self).__init__()
+        self.fe = copy.deepcopy(nn.Sequential(*list(res32.children())[:-2]))
+        self.ff = nn.AdaptiveAvgPool2d(output_size=(2, 2))
+        self.te = copy.deepcopy(list(tf.children())[0])
+        
+        # -- make sure these layers are not subject to change
+        Voc.freeze(self.fe)
+        Voc.freeze(self.ff)
+        
+        # -- classification, pascal context has 460 labels, including 
+        # 0: empty and 431: unknown
+        self.cat = nn.Linear(256, categories) 
+        # each 32*32 patch indicates at most 4 categories. The user is supposed to
+        # merge nearby patches with ther same categories
+        # use topk to get them
+
+        # -- segmentation
+        self.reg = nn.Sequential(
+            nn.Dropout(0.5),
+            # nn.Flatten(1),
+            nn.Linear(256, 1024),
+            nn.ReLU(),
+            # nn.BatchNorm1d(1024),
+            nn.Dropout(0.5),
+            nn.Linear(1024, 1024*4), # at most 4 categories per patch
+            nn.Sigmoid()
+        )
+
+        # which device this model is in
+        self.dev = 'cpu'
+
+    # xb is a bacth of x_i, i.e., x1, x2, .., xn
+    def forward(self, input):
+        x = self.fe(input)
+        x = self.ff(x)
+        x = torch.flatten(x, 1)
+        x = self.te(x)
+        
+        y = self.cat(x)
+        z = self.reg(x);
+        z = z.reshape((z.shape[0], 1024, 4))
+
+        return y, z
+
+    # convert (cat, reg) to segmentation
+    def toSegment(self, y, z):
+        # -- select the top 4 of y
+        num = z.shape[0]
+        u = torch.zeros(num, 1024, 460).to(self.dev)
+        val, ind = torch.topk(y, 4)
+        # u[:, :, ind] = z[:, :, :]
+        for i in range(num):
+            for j in range(1024):
+                u[i, j, ind[i, :]] = z[i, j, :]
+        
+        return u
+```
+
+Example of using Resnet-32 model:
+```python
+# print(len(resnet32.children()))
+x = Image.open('test/cat.jpg')
+a = Voc.cfar_preprocess(x).unsqueeze(0)
+print(a.shape)
+b = res32(a)
+print(b.shape)
+b = F.softmax(b, dim = 1)
+print(torch.max(b), torch.argmax(b))
+print('it is ---', cifar_100_names[torch.argmax(b)])
+```
+
+> - torch.Size([1, 3, 32, 32])
+> - torch.Size([1, 100])
+> - tensor(0.8406, grad_fn=<MaxBackward1>) tensor(42)
+> - it is --- leopard
+
