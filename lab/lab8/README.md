@@ -168,3 +168,22 @@ print('it is ---', cifar_100_names[torch.argmax(b)])
 
 ### transformer backbone
 The idea is to divide an image into $32\times 32$ patches. 
+
+```python
+# divide the image into 32x32 patches, at dimension 1 and 2
+print(a.shape)
+b = a.unfold(1, 32, 32).unfold(2, 32, 32)
+b = b.flatten(1, 2) # combine dim 1 and 2, (3, 7, 7, 32, 32) => (3, 49, 32, 32)
+b = b.permute(1, 0, 2, 3)
+print(b.shape)
+
+fig, ax = plt.subplots(7, 7)
+for i in range(0, 7):
+    for j in range(0, 7):
+        Voc.plot_tensor(b[i*7 + j,:, :,:], ax = ax[i, j])
+```
+
+>- torch.Size([3, 224, 224])
+>- torch.Size([49, 3, 32, 32])
+
+[](cat_patches.png)
