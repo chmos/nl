@@ -260,6 +260,33 @@ for i in range(0, ny):
 >
 > <img src="./snow_mobile.png" alt="image" width="400"/>
 
+### Apply TFDet model to Pascal data set
+```python
+# b = b.squeeze(0)
+b, _ = next(iter(pascal_loader))
+k = 12
+print('batch size =', len(b), '; img =', b[k].shape)
+
+bk = b[k].to(device)
+
+t0 = time()
+y, z = tfd(bk)
+t1 = time()
+print('elapsed', t1 - t0, 'sec')
+print('cat =', y.shape, 'seg =', z.shape);
+ 
+if False:
+    ind = tfd.toSegment(y, z)
+    t1 = time()
+    print('ind =', ind.shape)
+    print('elapsed', t1 - t0, 'sec')
+```
+
+> batch size = 16 ; img = torch.Size([150, 3, 32, 32])
+>
+> elapsed 0.010027408599853516 sec
+>
+> cat = torch.Size([150, 460]) seg = torch.Size([150, 1024, 4])
 
 ### Transformer backbone
 
