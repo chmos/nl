@@ -183,7 +183,7 @@ for i in range(0, 7):
         Voc.plot_tensor(b[i*7 + j,:, :,:], ax = ax[i, j])
 ```
 
->- torch.Size([3, 224, 224])
->- torch.Size([49, 3, 32, 32])
-
-[](cat_patches.png)
+> torch.Size([3, 224, 224])
+> torch.Size([49, 3, 32, 32])
+>
+> <img src="./cat_patches.png" alt="image" width="400"/>
