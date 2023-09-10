@@ -40,7 +40,7 @@ The input image is $224\times 224$, divided into $7\times 7$ patches. The embedd
 is given by Resnet-18, which converts the whole image into $512\times 7 \times 7$.
 The embedding of each patch then has a dimension of 512.
 
-### image utilities
+### Image and memory utilities
 Build a utility py script, named "pascal_voc":
 
 ```python
@@ -71,6 +71,19 @@ print(a.shape)
 plt.figure()
 Voc.plot_tensor(a)
 ```
+
+Check Jupyter lab memory usage:
+
+```python
+# Use the psutil package to get the memory usage of your code:
+
+import psutil
+
+process = psutil.Process(os.getpid())
+print(process.memory_info().rss / 1e9, 'G')
+```
+
+> 3.91665664 G
 
 ### ViT model
 ```python
