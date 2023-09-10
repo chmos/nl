@@ -174,6 +174,8 @@ The idea is to divide an image into $32\times 32$ patches.
 
 ```python
 # divide the image into 32x32 patches, at dimension 1 and 2
+x = Image.open('test/cat.jpg')
+a = Voc.preprocess(x)
 print(a.shape)
 b = a.unfold(1, 32, 32).unfold(2, 32, 32)
 b = b.flatten(1, 2) # combine dim 1 and 2, (3, 7, 7, 32, 32) => (3, 49, 32, 32)
