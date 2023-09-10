@@ -182,7 +182,87 @@ print('it is ---', cifar_100_names[torch.argmax(b)])
 >
 > it is --- leopard
 
-### transformer backbone
+
+### Pascal data set
+To handle categories and segmentation, we need to customize the data set class.
+This snippet shows how to use it.
+
+```python
+img_folder = 'voc/VOCdevkit/VOC2010/JPEGImages/'
+seg_folder = 'voc/trainval/'
+label_file = 'voc/labels.txt'
+
+pascal_set = PascalSet(img_folder, seg_folder, label_file)
+pascal_loader = torch.utils.data.DataLoader(
+            pascal_set, batch_size = 16, shuffle = True,
+            collate_fn = pascal_set.sample2tensors)
+
+# -- model instance
+tfd = TFDet()
+
+USE_GPU = True
+device = torch.device("cuda:0" if USE_GPU else "cpu")
+tfd = tfd.to(device)
+tfd.dev = device
+
+print('# of params = ', Voc.num_params(tfd, True))
+```
+
+> \# of images =  11321
+>
+> \# segment = 10103
+>
+> images without segmentation = 1218
+>
+> segmentations without image =  0
+> 
+> \# of labels = 459
+>
+> \# of params =  12470732
+>
+
+How to visualize one sample:
+
+```python
+img, seg = pascal_set[149]
+print('img =', img.shape, '; seg =',seg.shape)
+
+fix, ax = plt.subplots(1, 2)
+ax[0].imshow(seg)
+Voc.plot_tensor(img, ax = ax[1])
+
+ny = int(img.shape[1]/32)
+nx = int(img.shape[2]/32)
+b = img.unfold(1, 32, 32).unfold(2, 32, 32) # convert to 32*32 patches
+b = b.flatten(1, 2) # combine dim 1 and 2, (3, 7, 7, 32, 32) => (3, 49, 32, 32)
+b = b.permute(1, 0, 2, 3)
+print('b =', b.shape)
+
+b = seg.unfold(0, 32, 32).unfold(1, 32, 32)
+b = b.flatten(0, 1)
+print('bs =', b.shape)
+print('cat =', pascal_set.getNames(seg))
+fig, ax = plt.subplots(ny, nx)
+for i in range(0, ny):
+    for j in range(0, nx):
+        # Voc.plot_tensor(b[i*nx + j,:, :, :], ax = ax[i, j])
+        ax[i, j].imshow(b[i*nx + j, :, :])
+        ax[i, j].axis('off')
+```
+
+> img = torch.Size([3, 374, 500]) ; seg = torch.Size([374, 500])
+>
+> b = torch.Size([165, 3, 32, 32])
+>
+> bs = torch.Size([165, 32, 32])
+>
+> cat = ['person', 'snow', 'snowmobiles', 'tree']
+>
+> <img src="./snow_mobile.png" alt="image" width="400"/>
+
+
+### Transformer backbone
+
 The idea is to divide an image into $32\times 32$ patches. 
 
 ```python
