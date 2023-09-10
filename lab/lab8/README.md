@@ -166,3 +166,5 @@ print('it is ---', cifar_100_names[torch.argmax(b)])
 > - tensor(0.8406, grad_fn=<MaxBackward1>) tensor(42)
 > - it is --- leopard
 
+### transformer backbone
+The idea is to divide an image into $32\times 32$ patches. 
