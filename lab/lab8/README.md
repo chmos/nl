@@ -161,10 +161,13 @@ print(torch.max(b), torch.argmax(b))
 print('it is ---', cifar_100_names[torch.argmax(b)])
 ```
 
-> - torch.Size([1, 3, 32, 32])
-> - torch.Size([1, 100])
-> - tensor(0.8406, grad_fn=<MaxBackward1>) tensor(42)
-> - it is --- leopard
+> torch.Size([1, 3, 32, 32])
+> 
+> torch.Size([1, 100])
+>
+> tensor(0.8406, grad_fn=<MaxBackward1>) tensor(42)
+>
+> it is --- leopard
 
 ### transformer backbone
 The idea is to divide an image into $32\times 32$ patches. 
@@ -184,6 +187,7 @@ for i in range(0, 7):
 ```
 
 > torch.Size([3, 224, 224])
+> 
 > torch.Size([49, 3, 32, 32])
 >
 > <img src="./cat_patches.png" alt="image" width="400"/>
