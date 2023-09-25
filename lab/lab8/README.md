@@ -313,3 +313,10 @@ for i in range(0, 7):
 > torch.Size([49, 3, 32, 32])
 >
 > <img src="./cat_patches.png" alt="image" width="400"/>
+
+### Positional encoding
+
+The sequence of patches must add a corresponding 2D positional encoding, otherwise
+we do not have the location information of a patch. We use this encoder:
+
+[Multidimensional positional encoding](https://github.com/tatp22/multidim-positional-encoding)
