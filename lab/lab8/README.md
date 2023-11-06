@@ -31,6 +31,9 @@
 
 - [Spikformer: When Spiking Neural Network Meets Transformer, ICLR 2023](https://github.com/ZK-Zhou/spikformer/tree/main)
 
+**Parallel training**
+- [ColossalAI](https://github.com/hpcaitech/ColossalAI)
+
 ## Multitask ViT (Vision Transformer)
 Later we will replace the transformer by Spikformer. First, let's focus on 2 tasks:
 image classification and segmentation. The structure is a transformer followed by 2 heads:
